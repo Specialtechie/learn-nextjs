@@ -83,20 +83,30 @@ function Home() {
   ];
 
   const handleFinish = async () => {
-  const { error } = await supabase
+  console.log("Selected Date:", selectedDate);
+  console.log("Selected Date Type:", selectedDateType);
+
+  const { data, error } = await supabase
     .from("DateResponses")
-    .insert({
-      selected_date: selectedDate,
-      date_type: selectedDateType,
-    });
+    .insert([
+      {
+        selected_date: selectedDate,
+        date_type: selectedDateType,
+      },
+    ])
+    .select();
+
+  console.log("Data:", data);
+  console.log("Error:", error);
 
   if (error) {
-    console.log(error);
+    alert(error.message);
     return;
   }
 
-  // show popup
+  alert("Saved successfully!");
 };
+
   const dates = [
   {
     title: "🍽️ Dinner",
