@@ -434,10 +434,10 @@ function Home() {
   <div className="modal-overlay">
     <div className="modal">
 
-      <h2>🥰 Cant Wait!</h2>
+      <h2>🥰 Can&apos;t Wait!</h2>
 
       <p>
-        Cant wait to see you on
+        Can&apos;t wait to see you on
       </p>
 
       <h3>
