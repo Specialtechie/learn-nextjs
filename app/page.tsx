@@ -153,7 +153,7 @@ function Home() {
         />
 
         <div className="title">
-          Hi Asake, Adeola Mi ❤️
+          Hi ❤️
         </div>
 
         <button onClick={() => setStep(1)}>
