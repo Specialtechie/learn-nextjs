@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Lottie from "react-lottie";
+import Lottie from "lottie-react";
 import styled from "styled-components";
 import bunnyCry from "./animations/bunnyCry.json";
 import bunnyPlease from "./animations/bunnyPlease.json";
 import bunnyYes from "./animations/bunnyYes.json";
 import bunnyPunch from "./animations/bunnyPunch.json";
 import Button from "./components/Button";
+
 
 const getRandomPosition = () => {
   if (typeof window !== 'undefined') {
@@ -50,38 +51,6 @@ function Countdown({ onFinish, initialSeconds = 3 }: CountdownProps) {
 }
 
 function Home() {
-  const bunnyCryOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: bunnyCry,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-  const bunnyPleaseOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: bunnyPlease,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-  const bunnyYesOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: bunnyYes,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-  const bunnyPunchOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: bunnyPunch,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   const [bunnyState, setBunnyState] = useState("normal")
   const [hovered, setHovered] = useState(false);
@@ -160,10 +129,14 @@ function Home() {
     {step === 0 && (
       <div className="home-container">
 
-        <Lottie options={bunnyPleaseOptions} height={300} width={300} />
+      <Lottie
+        animationData={bunnyPlease}
+        loop
+        style={{ width: 300, height: 300 }}
+        />
 
         <div className="title">
-          Hi Asake, Adeola Mi❤️
+          Hi Asake, Adeola Mi ❤️
         </div>
 
         <button onClick={() => setStep(1)}>
@@ -177,7 +150,11 @@ function Home() {
     {step === 1 && (
       <div className="home-container">
 
-        <Lottie options={bunnyPleaseOptions} height={300} width={300} />
+        <Lottie
+          animationData={bunnyPlease}
+          loop
+          style={{ width: 300, height: 300 }}
+        />
 
         <div className="title">
           {messages[messageIndex]}
@@ -206,12 +183,39 @@ function Home() {
      {/* STEP 3 - YOUR CURRENT CODE GOES HERE */}
     {step === 3 && (
       <div className="home-container">
-        {bunnyState === "yes" ? <div className="title">Hasta la vista Baby  !!!!</div> : <div className="title">Will you go out with me?</div>}
+        {bunnyState === "yes" ? <div className="title">Hasta la vista Baby  !!!!</div> : <div className="title">Will you go on a date with me?</div>}
         <div className="animation">
-          {bunnyState === "normal" && <Lottie options={bunnyPleaseOptions} height={300} width={300} />}
-          {bunnyState === "cry" && <Lottie options={bunnyCryOptions} height={300} width={300} />}
-          {bunnyState === "yes" && <Lottie options={bunnyYesOptions} height={400} width={400} />}
-          {bunnyState === "punch" && <Lottie options={bunnyPunchOptions} height={300} width={300} />}
+          {bunnyState === "normal" && (
+            <Lottie
+              animationData={bunnyPlease}
+              loop
+              style={{ width: 300, height: 300 }}
+            />
+          )}
+
+          {bunnyState === "cry" && (
+            <Lottie
+              animationData={bunnyCry}
+              loop
+              style={{ width: 300, height: 300 }}
+            />
+          )}
+
+          {bunnyState === "yes" && (
+            <Lottie
+              animationData={bunnyYes}
+              loop
+              style={{ width: 400, height: 400 }}
+            />
+          )}
+
+          {bunnyState === "punch" && (
+            <Lottie
+              animationData={bunnyPunch}
+              loop
+              style={{ width: 300, height: 300 }}
+            />
+          )}
         </div>
         {bunnyState !== "yes" && <div className="buttons">
           <button onClick={() => {
@@ -236,7 +240,7 @@ function Home() {
     {step === 4 && (
       <div className="home-container">
         <Lottie
-          options={bunnyYesOptions}
+          animationData={bunnyYes}
           height={400}
           width={400}
         />
@@ -261,7 +265,7 @@ function Home() {
   <div className="home-container">
 
     <Lottie
-      options={bunnyYesOptions}
+      animationData={bunnyYes}
       height={300}
       width={300}
     />
@@ -351,9 +355,9 @@ function Home() {
   <div className="home-container">
 
     <Lottie
-      options={bunnyYesOptions}
-      height={350}
-      width={350}
+      animationData={bunnyYes}
+      loop
+      style={{ width: 350, height: 350 }}
     />
 
     <div className="title">
