@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Lottie from "lottie-react";
+import { supabase } from "../lib/supabase";
 import styled from "styled-components";
 import bunnyCry from "./animations/bunnyCry.json";
 import bunnyPlease from "./animations/bunnyPlease.json";
@@ -60,6 +61,7 @@ function Home() {
   const [messageIndex, setMessageIndex] = useState(0);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedDateType, setSelectedDateType] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const bunnyObj: { [key: number]: string } = { 0: "cry", 1: "punch" };
   const handleHover = (hoverState: boolean) => {
@@ -80,6 +82,21 @@ function Home() {
   "There's something I've wanted to ask..."
   ];
 
+  const handleFinish = async () => {
+  const { error } = await supabase
+    .from("responses")
+    .insert({
+      selected_date: selectedDate,
+      date_type: selectedDateType,
+    });
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  // show popup
+};
   const dates = [
   {
     title: "🍽️ Dinner",
@@ -402,11 +419,53 @@ function Home() {
     </div>
 
     <button
-      onClick={() => alert("Can't wait 🥰")}
+      onClick={async () => {
+        await handleFinish();
+        setShowModal(true);
+      }}
     >
       Finish
     </button>
 
+  </div>
+)}
+
+{showModal && (
+  <div className="modal-overlay">
+    <div className="modal">
+
+      <h2>🥰 Can't Wait!</h2>
+
+      <p>
+        Can't wait to see you on
+      </p>
+
+      <h3>
+        {new Date(selectedDate).toLocaleDateString("en-GB", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })}
+      </h3>
+
+      <h3>
+        for our
+      </h3>
+
+      <h2>
+        {selectedDateType}
+      </h2>
+
+      ❤️❤️❤️
+
+      <button
+        onClick={() => setShowModal(false)}
+      >
+        Close
+      </button>
+
+    </div>
   </div>
 )}
       
@@ -438,7 +497,7 @@ const StyledHome = styled.div`
   }
 
   .title {
-    font-size: 2rem;
+    font-size: 3rem;
     color: #5caff3;
     font-family: "Comic Sans MS", cursive;
     text-align: center;
@@ -531,11 +590,61 @@ const StyledHome = styled.div`
   button:hover {
     transform: scale(1.05);
   }
+    
+  
+  .modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  z-index:999;
+}
+
+.modal{
+  width:90%;
+  max-width:420px;
+
+  background:white;
+
+  border-radius:20px;
+
+  padding:30px;
+
+  text-align:center;
+
+  animation:popup .3s ease;
+}
+
+.modal h2{
+  color:#ff4fa0;
+}
+
+.modal button{
+  margin-top:20px;
+}
+
+@keyframes popup{
+
+from{
+transform:scale(.8);
+opacity:0;
+}
+
+to{
+transform:scale(1);
+opacity:1;
+}
+
+}
 
   /* ---------- Tablet ---------- */
   @media (max-width: 768px) {
     .title {
-      font-size: 1.6rem;
+      font-size: 2rem;
     }
 
     .day-grid {
@@ -555,7 +664,8 @@ const StyledHome = styled.div`
   /* ---------- Mobile ---------- */
   @media (max-width: 480px) {
     .title {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
+      font-weight: bold;
       padding: 0 10px;
     }
 
