@@ -58,7 +58,7 @@ function Home() {
   const [hasStarted, setHasStarted] = useState(false)
   const [step, setStep] = useState(0);
   const [messageIndex, setMessageIndex] = useState(0);
-  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedDateType, setSelectedDateType] = useState("");
 
   const bunnyObj: { [key: number]: string } = { 0: "cry", 1: "punch" };
@@ -75,9 +75,9 @@ function Home() {
 
   const messages = [
   "Ever since I met you...",
-  "You&#39;ve made ordinary days feel special ❤️",
+  "You've made ordinary days feel special ❤️",
   "You always know how to make me smile 😊",
-  "There&#39;s something I&#39;ve wanted to ask..."
+  "There's something I've wanted to ask..."
   ];
 
   const dates = [
@@ -189,7 +189,11 @@ function Home() {
             <Lottie
               animationData={bunnyPlease}
               loop
-              style={{ width: 300, height: 300 }}
+              style={{
+              width: "100%",
+              maxWidth: 320,
+              height: "auto",
+            }}
             />
           )}
 
@@ -197,7 +201,11 @@ function Home() {
             <Lottie
               animationData={bunnyCry}
               loop
-              style={{ width: 300, height: 300 }}
+              style={{
+              width: "100%",
+              maxWidth: 320,
+              height: "auto",
+            }}
             />
           )}
 
@@ -205,7 +213,11 @@ function Home() {
             <Lottie
               animationData={bunnyYes}
               loop
-              style={{ width: 400, height: 400 }}
+              style={{
+              width: "100%",
+              maxWidth: 400,
+              height: "auto",
+            }}
             />
           )}
 
@@ -213,7 +225,11 @@ function Home() {
             <Lottie
               animationData={bunnyPunch}
               loop
-              style={{ width: 300, height: 300 }}
+              style={{
+              width: "100%",
+              maxWidth: 320,
+              height: "auto",
+            }}
             />
           )}
         </div>
@@ -263,43 +279,41 @@ function Home() {
 
       {step === 5 && (
   <div className="home-container">
-
-    <Lottie
-      animationData={bunnyYes}
-      height={300}
-      width={300}
-    />
-
     <div className="title">
       Yay!! ❤️
     </div>
+    <Lottie
+      animationData={bunnyYes}
+      height={100}
+      width={100}
+    />
 
     <h2>Which day works best for you?</h2>
 
-    <div className="day-grid">
+    <div style={{ width: "100%", maxWidth: "350px" }}>
+      <label
+        style={{
+          display: "block",
+          marginBottom: "10px",
+          fontWeight: "bold",
+          color: "#5caff3",
+          fontSize: "1.2rem",
+        }}
+      >
+        Pick a date ❤️
+      </label>
 
-      {[
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-      ].map((day) => (
-        <button
-          key={day}
-          className={selectedDay === day ? "selected" : ""}
-          onClick={() => setSelectedDay(day)}
-        >
-          {day}
-        </button>
-      ))}
-
+      <input
+        type="date"
+        value={selectedDate}
+        min={new Date().toISOString().split("T")[0]}
+        onChange={(e) => setSelectedDate(e.target.value)}
+        className="date-picker"
+      />
     </div>
 
     <button
-      disabled={!selectedDay}
+      disabled={!selectedDate}
       onClick={() => setStep(6)}
     >
       Continue →
@@ -371,7 +385,14 @@ function Home() {
     <div className="summary">
 
       <p>
-        📅 Day: <strong>{selectedDay}</strong>
+        📅 Date: <strong>Preferred Date:{" "}
+            {selectedDate &&
+              new Date(selectedDate).toLocaleDateString("en-GB", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}</strong>
       </p>
 
       <p>
@@ -395,70 +416,175 @@ function Home() {
 
 const StyledHome = styled.div`
   display: flex;
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   align-items: center;
   justify-content: center;
-  background-color:#feeafb;
-  .home-container{
+  background-color: #feeafb;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+
+  .home-container {
     display: flex;
-    flex-direction:column;
-    gap:3rem;
+    flex-direction: column;
+    gap: 2rem;
     align-items: center;
     justify-content: center;
-    .title{
-      font-size: 2rem;
-      color:#5caff3;
-      font-family: comic sans ms;
+    max-width: 900px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 2rem;
+    color: #5caff3;
+    font-family: "Comic Sans MS", cursive;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .animation {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .date-picker {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  border: 2px solid #ffb6d9;
+  border-radius: 12px;
+  background: white;
+  outline: none;
+  cursor: pointer;
+}
+
+.date-picker:focus {
+  border-color: #ff4fa0;
+}
+  .day-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+    width: 100%;
+  }
+
+  .selected {
+    background: #ff4fa0;
+    color: white;
+  }
+
+  .date-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .date-card {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 3px solid transparent;
+    text-align: center;
+  }
+
+  .date-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .date-card.active {
+    border-color: #ff4fa0;
+    background: #fff0f7;
+  }
+
+  .emoji {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  button {
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  /* ---------- Tablet ---------- */
+  @media (max-width: 768px) {
+    .title {
+      font-size: 1.6rem;
+    }
+
+    .day-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .date-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .emoji {
+      font-size: 2.5rem;
     }
   }
-  .day-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    margin:20px 0;
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 480px) {
+    .title {
+      font-size: 1.3rem;
+      padding: 0 10px;
     }
 
-.date-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:20px;
-  width:900px;
-  max-width:90vw;
-}
+    .day-grid {
+      grid-template-columns: 1fr;
+    }
 
-.date-card{
-  background:white;
-  border-radius:18px;
-  padding:20px;
-  cursor:pointer;
-  transition:.3s;
-  border:3px solid transparent;
-}
+    .date-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
 
-.date-card:hover{
-  transform:translateY(-6px);
-}
+    .date-card {
+      padding: 16px;
+    }
 
-.date-card.active{
-  border-color:#ff4fa0;
-  background:#fff0f7;
-}
+    .emoji {
+      font-size: 2.2rem;
+    }
 
-.selected{
-  background:#ff4fa0;
-  color:white;
-}
+    .buttons {
+      flex-direction: column;
+      align-items: center;
+    }
 
-.emoji{
-  font-size:3rem;
-}
-  .buttons{
-    display: flex;
-    gap: 2rem;
+    button {
+      width: 90%;
+      max-width: 280px;
+    }
   }
 `;
 
