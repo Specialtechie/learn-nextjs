@@ -450,7 +450,7 @@ function Home() {
       </h3>
 
       <h3>
-        for our
+        for our date.
       </h3>
 
       <h2>
