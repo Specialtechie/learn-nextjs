@@ -75,9 +75,9 @@ function Home() {
 
   const messages = [
   "Ever since I met you...",
-  "You've made ordinary days feel special ❤️",
+  "You&#39;ve made ordinary days feel special ❤️",
   "You always know how to make me smile 😊",
-  "There's something I've wanted to ask..."
+  "There&#39;s something I&#39;ve wanted to ask..."
   ];
 
   const dates = [
@@ -256,7 +256,7 @@ function Home() {
             fontFamily: "Comic Sans MS",
           }}
         >
-          I can't wait for our first date 🥰
+          I can&#39;t wait for our first date 🥰
         </p>
       </div>
     )}
@@ -312,7 +312,7 @@ function Home() {
   <div className="home-container">
 
     <h1 className="title">
-      What's your ideal date?
+      What is your ideal date?
     </h1>
 
     <div className="date-grid">
