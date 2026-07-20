@@ -84,7 +84,7 @@ function Home() {
 
   const handleFinish = async () => {
   const { error } = await supabase
-    .from("responses")
+    .from("DateResponses")
     .insert({
       selected_date: selectedDate,
       date_type: selectedDateType,
