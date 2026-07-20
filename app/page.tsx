@@ -664,7 +664,7 @@ opacity:1;
   /* ---------- Mobile ---------- */
   @media (max-width: 480px) {
     .title {
-      font-size: 1.5rem;
+      font-size: 2rem;
       font-weight: bold;
       padding: 0 10px;
     }
